@@ -1,689 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoPin - Military & Customs Tracking System</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js" onerror="console.log('Vanta.js failed to load, using fallback background')"></script>
-    <style>
-        #vanta-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-        .map-container {
-            height: 600px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-        .bg-grid-pattern {
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        @media (prefers-reduced-data: reduce) {
-            #vanta-bg {
-                display: none;
-            }
-            body {
-                background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            }
-        }
-    </style>
-</head>
-<body class="bg-gray-100">
-    <div id="vanta-bg"></div>
-    
-    <!-- Navigation -->
-    <nav class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-sm fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <i data-feather="map" class="text-blue-600 w-8 h-8"></i>
-                        <span class="ml-2 text-xl font-bold text-gray-800">GeoPin</span>
-                    </div>
-                </div>
-                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
-                    <a href="#" class="text-blue-600 px-3 py-2 text-sm font-medium">Home</a>
-                    <a href="#features" class="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium">Features</a>
-                    <a href="#solutions" class="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium">Solutions</a>
-                    <a href="#contact" class="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium">Contact</a>
-                    <a href="login.html" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-300">Login</a>
-                </div>
-                <div class="-mr-2 flex items-center md:hidden">
-                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
-                        <i data-feather="menu"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+# GeoPin - Military & Customs Tracking System
 
-    <!-- Hero Section -->
-    <div class="relative pt-32 pb-20 px-4 sm:px-6 lg:pt-40 lg:pb-28 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center">
-                <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl" data-aos="fade-down">
-                    <span class="block">Advanced Geo-Tracking</span>
-                    <span class="block text-blue-600">For Nigerian Security</span>
-                </h1>
-                <p class="mt-3 max-w-md mx-auto text-base text-gray-600 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl" data-aos="fade-up" data-aos-delay="100">
-                    Real-time aerial imagery and precision tracking for Nigerian Military and Customs operations.
-                </p>
-                <div class="mt-10 sm:flex sm:justify-center" data-aos="fade-up" data-aos-delay="200">
-                    <div class="rounded-md shadow">
-                        <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                            Request Demo
-                        </a>
-                    </div>
-                    <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                        <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
-                            Learn More
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+A modern web application for military and customs tracking with real-time geolocation features.
 
-    <!-- Features Section -->
-    <div id="features" class="py-12 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:text-center">
-                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase" data-aos="fade-down">Features</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl" data-aos="fade-down" data-aos-delay="100">
-                    Powerful Tools for National Security
-                </p>
-            </div>
+## 🚀 Features
 
-            <div class="mt-10">
-                <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-                    <!-- Feature 1 -->
-                    <div class="feature-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="100">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                                    <i data-feather="map" class="text-blue-600 w-6 h-6"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Real-time Aerial Imagery</h3>
-                                </div>
-                            </div>
-                            <p class="mt-2 text-base text-gray-600">
-                                High-resolution satellite and drone imagery updated in real-time for accurate terrain assessment.
-                            </p>
-                        </div>
-                    </div>
+- 🌍 Interactive map interface with real-time location tracking
+- 📱 Responsive design that works on all devices
+- 🛡️ Secure with best practices (CSP, Helmet.js, rate limiting)
+- ⚡ Optimized performance with compression and caching
+- 🎨 Modern UI with Tailwind CSS and smooth animations
+- 🔒 Secure authentication (to be implemented)
+- 📊 Data visualization and analytics (to be implemented)
 
-                    <!-- Feature 2 -->
-                    <div class="feature-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="200">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                                    <i data-feather="users" class="text-blue-600 w-6 h-6"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Personnel Tracking</h3>
-                                </div>
-                            </div>
-                            <p class="mt-2 text-base text-gray-600">
-                                Monitor all field operatives with GPS precision and status indicators for mission coordination.
-                            </p>
-                        </div>
-                    </div>
+## 📋 Prerequisites
 
-                    <!-- Feature 3 -->
-                    <div class="feature-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="300">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                                    <i data-feather="shield" class="text-blue-600 w-6 h-6"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Customs Monitoring</h3>
-                                </div>
-                            </div>
-                            <p class="mt-2 text-base text-gray-600">
-                                Track shipments and border crossings with automated alerts for suspicious activities.
-                            </p>
-                        </div>
-                    </div>
+- Node.js (v14 or later)
+- npm (comes with Node.js)
+- Google Maps API key (for map functionality)
 
-                    <!-- Feature 4 -->
-                    <div class="feature-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="400">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                                    <i data-feather="alert-triangle" class="text-blue-600 w-6 h-6"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Threat Detection</h3>
-                                </div>
-                            </div>
-                            <p class="mt-2 text-base text-gray-600">
-                                AI-powered analysis to identify potential threats and suspicious patterns in movement.
-                            </p>
-                        </div>
-                    </div>
+## 🚀 Getting Started
 
-                    <!-- Feature 5 -->
-                    <div class="feature-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="500">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                                    <i data-feather="radio" class="text-blue-600 w-6 h-6"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Secure Communication</h3>
-                                </div>
-                            </div>
-                            <p class="mt-2 text-base text-gray-600">
-                                Encrypted messaging and file sharing integrated with location data for mission-critical communication.
-                            </p>
-                        </div>
-                    </div>
+1. **Clone the repository**
 
-                    <!-- Feature 6 -->
-                    <div class="feature-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="600">
-                        <div class="p-6">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                                    <i data-feather="bar-chart-2" class="text-blue-600 w-6 h-6"></i>
-                                </div>
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900">Analytics Dashboard</h3>
-                                </div>
-                            </div>
-                            <p class="mt-2 text-base text-gray-600">
-                                Comprehensive data visualization and reporting tools for strategic decision making.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   ```bash
+   git clone https://github.com/yourusername/GEOPIN.git
+   cd GEOPIN
+   ```
 
-    <!-- Map Demo Section -->
-    <div class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:text-center mb-12">
-                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase" data-aos="fade-down">Live Demo</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl" data-aos="fade-down" data-aos-delay="100">
-                    Interactive Tracking Interface
-                </p>
-            </div>
-            
-            <div class="map-container bg-white p-4" data-aos="zoom-in">
-                <div class="h-full w-full relative">
-                    <div id="demo-map" class="h-full w-full"></div>
-                    <div class="absolute top-4 right-4 bg-white p-3 rounded-lg shadow-md">
-                        <h3 class="font-semibold text-gray-800 mb-2">Live Tracking Demo</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-                                <span>Military Unit (3 active)</span>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-                                <span>Customs Patrol (2 active)</span>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-                                <span>Suspected Activity</span>
-                            </div>
-                        </div>
-                        <button onclick="simulateMovement()" class="mt-3 w-full bg-blue-600 text-white py-1 px-3 rounded text-xs hover:bg-blue-700 transition">
-                            Simulate Movement
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+2. **Install dependencies**
 
-    <!-- Solutions Section -->
-    <div id="solutions" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:text-center mb-12">
-                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase" data-aos="fade-down">Solutions</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl" data-aos="fade-down" data-aos-delay="100">
-                    Tailored for Nigerian Security Needs
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-gray-50 p-8 rounded-lg" data-aos="fade-right">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-blue-100 p-3 rounded-full mr-4">
-                            <i data-feather="shield" class="text-blue-600 w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800">Military Operations</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">
-                        GeoPin provides Nigerian Armed Forces with cutting-edge geospatial intelligence for:
-                    </p>
-                    <ul class="space-y-2">
-                        <li class="flex items-start">
-                            <i data-feather="check" class="text-green-500 mr-2 mt-1 w-4 h-4"></i>
-                            <span class="text-gray-700">Tactical navigation in remote areas</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i data-feather="check" class="text-green-500 mr-2 mt-1 w-4 h-4"></i>
-                            <span class="text-gray-700">Enemy movement tracking</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i data-feather="check" class="text-green-500 mr-2 mt-1 w-4 h-4"></i>
-                            <span class="text-gray-700">Mission planning and execution</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i data-feather="check" class="text-green-500 mr-2 mt-1 w-4 h-4"></i>
-                            <span class="text-gray-700">Search and rescue operations</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="bg-gray-50 p-8 rounded-lg" data-aos="fade-left">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-blue-100 p-3 rounded-full mr-4">
-                            <i data-feather="truck" class="text-blue-600 w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800">Customs & Border Control</h3>
-                    </div>
-                    <p class="text-gray-600 mb-4">
-                        Nigerian Customs Service benefits from our advanced tracking for:
-                    </p>
-                    <ul class="space-y-2">
-                        <li class="flex items-start">
-                            <i data-feather="check" class="text-green-500 mr-2 mt-1 w-4 h-4"></i>
-                            <span class="text-gray-700">Smuggling route detection</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i data-feather="check" class="text-green-500 mr-2 mt-1 w-4 h-4"></i>
-                            <span class="text-gray-700">Goods movement monitoring</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i data-feather="check" class="text-green-500 mr-2 mt-1 w-4 h-4"></i>
-                            <span class="text-gray-700">Border crossing surveillance</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i data-feather="check" class="text-green-500 mr-2 mt-1 w-4 h-4"></i>
-                            <span class="text-gray-700">Revenue protection</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+   ```bash
+   npm install
+   ```
 
-    <!-- Contact Section -->
-    <div id="contact" class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:text-center mb-12">
-                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase" data-aos="fade-down">Contact Us</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl" data-aos="fade-down" data-aos-delay="100">
-                    Secure Your Nation Today
-                </p>
-            </div>
-            
-            <div class="bg-white shadow-xl rounded-lg overflow-hidden" data-aos="zoom-in">
-                <div class="grid md:grid-cols-2">
-                    <div class="p-8">
-                        <h3 class="text-lg font-medium text-gray-900 mb-6">Get in touch</h3>
-                        <form class="space-y-6">
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                <input type="text" id="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="email" id="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label for="organization" class="block text-sm font-medium text-gray-700">Organization</label>
-                                <input type="text" id="organization" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-                                <textarea id="message" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
-                            </div>
-                            <div>
-                                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                    Send Message
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="bg-blue-600 p-8 text-white">
-                        <h3 class="text-lg font-medium mb-6">Contact Information</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <i data-feather="map-pin" class="mr-3 mt-1 w-5 h-5"></i>
-                                <div>
-                                    <p class="font-medium">Headquarters</p>
-                                    <p class="text-blue-100">123 Security Avenue, Abuja, Nigeria</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i data-feather="mail" class="mr-3 mt-1 w-5 h-5"></i>
-                                <div>
-                                    <p class="font-medium">Email</p>
-                                    <p class="text-blue-100">contact@geopin.ng</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <i data-feather="phone" class="mr-3 mt-1 w-5 h-5"></i>
-                                <div>
-                                    <p class="font-medium">Phone</p>
-                                    <p class="text-blue-100">+234 800 000 0000</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-8">
-                            <h4 class="font-medium mb-4">Security Clearance Required</h4>
-                            <p class="text-blue-100">
-                                All inquiries are handled with the highest level of security. Proper authorization is required for system demonstrations and access.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+3. **Set up environment variables**
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Product</h3>
-                    <ul class="mt-4 space-y-4">
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Features</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Solutions</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Pricing</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Demo</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Company</h3>
-                    <ul class="mt-4 space-y-4">
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">About</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Careers</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Security</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Partners</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Resources</h3>
-                    <ul class="mt-4 space-y-4">
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Documentation</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">API</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Training</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Support</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Legal</h3>
-                    <ul class="mt-4 space-y-4">
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Privacy</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Terms</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">Compliance</a></li>
-                        <li><a href="#" class="text-base text-gray-300 hover:text-white">GDPR</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i data-feather="facebook" class="h-6 w-6"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i data-feather="twitter" class="h-6 w-6"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i data-feather="linkedin" class="h-6 w-6"></i>
-                    </a>
-                </div>
-                <p class="mt-4 md:mt-0 text-base text-gray-400">
-                    &copy; 2023 GeoPin. All rights reserved.
-                </p>
-            </div>
-        </div>
-    </footer>
+   Copy the example environment file and update it with your Google Maps API key:
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=DEMO_KEY&callback=initMap&libraries=visualization" async defer onerror="handleMapError()"></script>
-    <script>
-        try {
-            VANTA.GLOBE({
-                el: "#vanta-bg",
-                mouseControls: true,
-                touchControls: true,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                scale: 1.00,
-                scaleMobile: 1.00,
-                color: 0x3b82f6,
-                backgroundColor: 0xf1f5f9,
-                size: 1.00
-            });
-        } catch (e) {
-            console.log("Vanta.js not available, using simple background");
-            document.getElementById('vanta-bg').style.background = "linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)";
-        }
+   ```bash
+   cp .env.example .env
+   ```
 
-        let map;
-        let markers = [];
-        let heatmap;
-        
-        function handleMapError() {
-            console.log("Google Maps failed to load. Using fallback map system.");
-            document.getElementById('demo-map').innerHTML = `
-                <div class="h-full w-full flex items-center justify-center bg-gray-200">
-                    <div class="text-center p-6">
-                        <i data-feather="map" class="w-16 h-16 text-blue-600 mx-auto"></i>
-                        <h3 class="mt-4 text-lg font-medium text-gray-900">Offline Map Mode</h3>
-                        <p class="mt-2 text-sm text-gray-600">Network connectivity limited. Using cached map data.</p>
-                        <button onclick="initOfflineMap()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
-                            Load Offline Map
-                        </button>
-                    </div>
-                </div>
-            `;
-            feather.replace();
-        }
+   Then edit the `.env` file and add your Google Maps API key:
 
-        function initOfflineMap() {
-            document.getElementById('demo-map').innerHTML = `
-                <div class="h-full w-full relative">
-                    <img src="http://static.photos/aerial/1200x630/42" class="w-full h-full object-cover" alt="Nigeria Map">
-                    <div class="absolute inset-0 bg-grid-pattern"></div>
-                    
-                    <!-- Simulated tracking markers -->
-                    <div class="absolute top-1/3 left-1/2 w-4 h-4 bg-blue-600 rounded-full border-2 border-white transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
-                    <div class="absolute top-2/5 left-2/5 w-4 h-4 bg-green-600 rounded-full border-2 border-white transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
-                    <div class="absolute top-1/2 left-3/5 w-4 h-4 bg-red-600 rounded-full border-2 border-white transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
-                    
-                    <div class="absolute top-4 right-4 bg-white p-3 rounded-lg shadow-md">
-                        <h3 class="font-semibold text-gray-800 mb-2">Offline Tracking Mode</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-                                <span>Military Unit (3 active)</span>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-                                <span>Customs Patrol (2 active)</span>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-                                <span>Suspected Activity</span>
-                            </div>
-                        </div>
-                        <button onclick="simulateOfflineMovement()" class="mt-3 w-full bg-blue-600 text-white py-1 px-3 rounded text-xs hover:bg-blue-700 transition">
-                            Simulate Movement
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
+   ```env
+   GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+   PORT=3000
+   NODE_ENV=development
+   ```
 
-        function simulateOfflineMovement() {
-            // Simple simulation for offline mode
-            const markers = document.querySelectorAll('.absolute.w-4.h-4.rounded-full');
-            markers.forEach(marker => {
-                const top = Math.random() * 80 + 10;
-                const left = Math.random() * 80 + 10;
-                marker.style.top = `${top}%`;
-                marker.style.left = `${left}%`;
-            });
-        }
+4. **Start the development server**
 
-        function initMap() {
-            // Check if Google Maps is available
-            if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
-                handleMapError();
-                return;
-            }
-            
-            // Center map on Nigeria
-            map = new google.maps.Map(document.getElementById('demo-map'), {
-                center: {lat: 9.0820, lng: 8.6753},
-                zoom: 6,
-                styles: [
-                    {
-                        "featureType": "administrative",
-                        "elementType": "geometry",
-                        "stylers": [{"visibility": "off"}]
-                    },
-                    {
-                        "featureType": "poi",
-                        "stylers": [{"visibility": "off"}]
-                    },
-                    {
-                        "featureType": "road",
-                        "elementType": "labels.icon",
-                        "stylers": [{"visibility": "off"}]
-                    },
-                    {
-                        "featureType": "transit",
-                        "stylers": [{"visibility": "off"}]
-                    }
-                ]
-            });
-            
-            // Add initial markers for demo
-            addDemoMarkers();
-            
-            // Add heatmap layer for suspected activities
-            heatmap = new google.maps.visualization.HeatmapLayer({
-                data: [
-                    new google.maps.LatLng(9.0820, 8.6753),
-                    new google.maps.LatLng(9.5, 8.2),
-                    new google.maps.LatLng(8.8, 9.1),
-                    new google.maps.LatLng(10.0, 7.5)
-                ],
-                map: map,
-                radius: 30
-            });
-        }
-        
-        function addDemoMarkers() {
-            // Military units
-            const militaryPositions = [
-                {lat: 9.0820, lng: 8.6753},
-                {lat: 9.5, lng: 8.8},
-                {lat: 8.7, lng: 8.9}
-            ];
-            
-            // Customs patrols
-            const customsPositions = [
-                {lat: 9.2, lng: 8.4},
-                {lat: 8.9, lng: 8.6}
-            ];
-            
-            // Add military markers (blue)
-            militaryPositions.forEach(position => {
-                const marker = new google.maps.Marker({
-                    position: position,
-                    map: map,
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 8,
-                        fillColor: '#3B82F6',
-                        fillOpacity: 1,
-                        strokeColor: '#FFFFFF',
-                        strokeWeight: 2
-                    }
-                });
-                markers.push(marker);
-            });
-            
-            // Add customs markers (green)
-            customsPositions.forEach(position => {
-                const marker = new google.maps.Marker({
-                    position: position,
-                    map: map,
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 8,
-                        fillColor: '#10B981',
-                        fillOpacity: 1,
-                        strokeColor: '#FFFFFF',
-                        strokeWeight: 2
-                    }
-                });
-                markers.push(marker);
-            });
-        }
-        
-        function simulateMovement() {
-            if (typeof google === 'undefined' || !markers) {
-                simulateOfflineMovement();
-                return;
-            }
-            
-            markers.forEach(marker => {
-                const currentPos = marker.getPosition();
-                const latChange = (Math.random() - 0.5) * 0.1;
-                const lngChange = (Math.random() - 0.5) * 0.1;
-                
-                const newPos = {
-                    lat: currentPos.lat() + latChange,
-                    lng: currentPos.lng() + lngChange
-                };
-                
-                marker.setPosition(newPos);
-            });
-            
-            // Add new heatmap points for suspected activity
-            const newHeatPoints = [
-                new google.maps.LatLng(9.0820 + (Math.random() - 0.5) * 0.3, 8.6753 + (Math.random() - 0.5) * 0.3),
-                new google.maps.LatLng(9.5 + (Math.random() - 0.5) * 0.3, 8.2 + (Math.random() - 0.5) * 0.3)
-            ];
-            
-            const currentData = heatmap.getData();
-            newHeatPoints.forEach(point => currentData.push(point));
-            heatmap.setData(currentData);
-        }
-    </script>
-    <script>AOS.init();</script>
-    <script>feather.replace();</script>
-</body>
-</html>
+   ```bash
+   npm run dev
+   ```
+   
+   The application will be available at [http://localhost:3000](http://localhost:3000)
+
+## 🏗️ Project Structure
+
+```
+GEOPIN/
+├── public/               # Static files
+│   ├── index.html        # Main HTML file
+│   ├── css/              # CSS files
+│   │   └── styles.css    # Main styles
+│   └── js/               # JavaScript files
+│       └── app.js        # Main application logic
+├── .env.example          # Example environment variables
+├── .eslintrc.json        # ESLint configuration
+├── .prettierrc           # Prettier configuration
+├── .editorconfig         # Editor configuration
+├── .gitignore            # Git ignore file
+├── server.js             # Express server
+├── package.json          # Project dependencies and scripts
+└── README.md             # This file
+```
+
+## 🛠️ Technologies Used
+
+### Frontend
+- HTML5, CSS3, JavaScript (ES6+)
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+- [AOS (Animate On Scroll)](https://michalsnik.github.io/aos/) for smooth animations
+- [Feather Icons](https://feathericons.com/) for beautiful icons
+- [Vanta.js](https://www.vantajs.com/) for animated backgrounds
+- [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview) for mapping
+
+### Backend
+- [Node.js](https://nodejs.org/) with [Express](https://expressjs.com/)
+- [Helmet.js](https://helmetjs.github.io/) for security headers
+- [compression](https://www.npmjs.com/package/compression) for gzip compression
+- [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) for rate limiting
+- [dotenv](https://www.npmjs.com/package/dotenv) for environment variables
+
+### Development Tools
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io/) for code formatting
+- [Nodemon](https://nodemon.io/) for automatic server restarts
+
+## ⚙️ Configuration
+
+### Google Maps API
+
+1. Get a Google Maps JavaScript API key from the [Google Cloud Console](https://console.cloud.google.com/)
+2. Enable the following APIs in the Google Cloud Console:
+   - Maps JavaScript API
+   - Geocoding API
+   - Places API
+3. Add your API key to the `.env` file:
+
+   ```env
+   GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+   ```
+
+## 🛠 Development
+
+### Available Scripts
+
+- `npm start` - Start the production server
+- `npm run dev` - Start the development server with auto-reload
+- `npm run lint` - Run ESLint to check for code issues
+- `npm run format` - Format code using Prettier
+
+### Code Style
+
+This project uses:
+- ESLint for code linting
+- Prettier for code formatting
+- EditorConfig for consistent editor settings
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first CSS
+- [AOS](https://michalsnik.github.io/aos/) for smooth animations
+- [Feather Icons](https://feathericons.com/) for beautiful icons
+- [Vanta.js](https://www.vantajs.com/) for animated backgrounds
+- [Google Maps Platform](https://developers.google.com/maps) for mapping
+- [Express](https://expressjs.com/) for the web framework
+- [Helmet.js](https://helmetjs.github.io/) for securing Express apps
